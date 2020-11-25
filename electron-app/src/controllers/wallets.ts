@@ -4,7 +4,6 @@ import DialogManager from '../services/dialogmanager';
 import {
   MENU_BACKUP_WALLET,
   MENU_IMPORT_WALLET,
-  RESET_BACKUP_WALLET,
   START_BACKUP_WALLET,
   WALLET_DAT,
 } from '../constants';
@@ -76,9 +75,5 @@ export default class Wallet {
 
   async startBackupWallet(bw: Electron.BrowserWindow) {
     bw.webContents.send(START_BACKUP_WALLET);
-  }
-
-  async resetWallet(bw: Electron.BrowserWindow) {
-    bw.webContents.send(RESET_BACKUP_WALLET);
   }
 }

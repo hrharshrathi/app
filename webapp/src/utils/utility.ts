@@ -487,10 +487,11 @@ export const queuePush = (
   }
 };
 
-export const isWalletCreated = (network) => {
+export const isWalletCreated = () => {
+  const networkType = getNetworkType();
   const key =
-    network === MAIN ? IS_WALLET_CREATED_MAIN : IS_WALLET_CREATED_TEST;
-  return PersistentStore.get(key) === 'true';
+    networkType === MAIN ? IS_WALLET_CREATED_MAIN : IS_WALLET_CREATED_TEST;
+  return PersistentStore.get(key) || false;
 };
 
 const getPopularSymbolList = () => {

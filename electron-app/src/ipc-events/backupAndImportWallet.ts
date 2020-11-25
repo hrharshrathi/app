@@ -3,15 +3,11 @@ import {
   WALLET_BACKUP,
   BACKUP_WALLET_DAT,
   REPLACE_WALLET_DAT,
-  ENABLE_RESET_MENU,
 } from '../constants';
 import Wallet from '../controllers/wallets';
 import { responseMessage } from '../utils';
 
-const initiateBackupImportWalletManager = (
-  bw: Electron.BrowserWindow,
-  createMenu: Function
-) => {
+const initiateBackupImportWalletManager = (bw: Electron.BrowserWindow) => {
   ipcMain.on(WALLET_BACKUP, async (event: Electron.IpcMainEvent) => {
     const wallet = new Wallet();
     event.returnValue = await wallet.backup(bw);
@@ -38,14 +34,6 @@ const initiateBackupImportWalletManager = (
       event.returnValue = responseMessage(false, {
         message: err.message,
       });
-    }
-  });
-
-  ipcMain.on(ENABLE_RESET_MENU, async () => {
-    try {
-      createMenu(true);
-    } catch (err) {
-      console.log(err);
     }
   });
 };

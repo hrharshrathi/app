@@ -16,7 +16,6 @@ export const initialState = {
   updateAvailableBadge: false,
   backupWalletIsOpen: false,
   openBackupWalletDatModal: false,
-  openResetWalletDatModal: false,
   isBackupWalletWarningModelOpen: false,
   isEnrcyptWalletModalOpen: false,
   isWalletPassphraseModalOpen: false,
@@ -148,13 +147,6 @@ const configSlice = createSlice({
     setIsWalletReplace(state) {
       state.isWalletReplace = true;
     },
-    openResetWalletDatModal(state) {
-      state.openResetWalletDatModal = true;
-    },
-    startResetWalletDatRequest(state) {},
-    closeResetWalletDatModal(state) {
-      state.openResetWalletDatModal = false;
-    },
   },
 });
 
@@ -198,9 +190,6 @@ export const {
   closeWalletRestartModal,
   restartWalletStart,
   setIsWalletReplace,
-  openResetWalletDatModal,
-  closeResetWalletDatModal,
-  startResetWalletDatRequest
 } = actions;
 
 export default reducer;

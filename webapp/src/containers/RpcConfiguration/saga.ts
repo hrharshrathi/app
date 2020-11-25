@@ -21,13 +21,8 @@ import {
   closeErrorModal,
   closeRestartLoader,
 } from '../PopOver/reducer';
-import {
-  fetchPaymentRequest,
-  setIsWalletCreatedRequest,
-} from '../WalletPage/reducer';
+import { fetchPaymentRequest } from '../WalletPage/reducer';
 import { fetchChainInfo } from '../WalletPage/saga';
-import { isWalletCreated } from '../../utils/utility';
-import { enableMenuResetWalletBtn } from '../../app/update.ipcRenderer';
 
 function* blockChainNotStarted(message) {
   const { isRunning } = yield select((state) => state.app);
@@ -75,7 +70,6 @@ export function* getConfig() {
 export function* preCheck() {
   yield call(fetchChainInfo);
   yield put(fetchPaymentRequest());
-  yield call(enableMenuResetWalletBtn);
 }
 
 function* mySaga() {

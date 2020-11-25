@@ -16,8 +16,6 @@ import {
   openWalletRestartModal,
   restartModal,
   setIsWalletReplace,
-  closeResetWalletDatModal,
-  startResetWalletDatRequest,
 } from './reducer';
 import {
   autoLockTimer,
@@ -31,8 +29,6 @@ import { I18n } from 'react-redux-i18n';
 import { showErrorNotification } from '../../app/service';
 import PersistentStore from '../../utils/persistentStore';
 import {
-  IS_WALLET_CREATED_MAIN,
-  IS_WALLET_CREATED_TEST,
   IS_WALLET_LOCKED_MAIN,
   IS_WALLET_LOCKED_TEST,
   MAIN,
@@ -41,7 +37,7 @@ import { replaceWalletDat } from '../../app/service';
 import { backupWallet } from '../../app/update.ipcRenderer';
 import { restartNode } from '../../utils/isElectron';
 import { shutDownBinary } from '../../worker/queue';
-import { setIsWalletCreatedRequest } from '../WalletPage/reducer';
+
 
 export function* backupWalletbeforeUpdate() {
   const result = yield call(backupWallet);
@@ -57,6 +53,7 @@ function* backupWalletBeforeNewWalletCreation() {
     yield put(openWalletRestartModal());
   }
 }
+
 
 function* encryptWallet(action) {
   try {
@@ -118,25 +115,11 @@ function* lockWallet() {
 }
 
 function* restartWalletBeforeNewWalletCreation() {
-  yield call(restartAndReplaceWallet);
-  yield put(setIsWalletReplace());
-}
-
-function* startResetWalletDat() {
-  const network = getNetworkType();
-  const isWalletCreated =
-    network === MAIN ? IS_WALLET_CREATED_MAIN : IS_WALLET_CREATED_TEST;
-  PersistentStore.set(isWalletCreated, false);
-  yield call(restartAndReplaceWallet);
-  yield put(setIsWalletCreatedRequest(false));
-  yield put(closeResetWalletDatModal());
-}
-
-function* restartAndReplaceWallet() {
   yield put(restartModal());
   yield call(replaceWalletDat);
   yield call(shutDownBinary);
   yield call(restartNode);
+  yield put(setIsWalletReplace());
 }
 
 function* mySaga() {
@@ -149,6 +132,5 @@ function* mySaga() {
     restartWalletStart.type,
     restartWalletBeforeNewWalletCreation
   );
-  yield takeLatest(startResetWalletDatRequest.type, startResetWalletDat);
 }
 export default mySaga;
