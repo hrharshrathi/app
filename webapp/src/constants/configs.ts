@@ -89,10 +89,9 @@ export const DFI_SYMBOL = '0';
 export const BTC_SYMBOL = '1';
 export const ETH_SYMBOL = '2';
 export const USDT_SYMBOL = '5';
-export const MAINNET_ETH_SYMBOL = '1'
+export const MAINNET_ETH_SYMBOL = '1';
 export const MAINNET_BTC_SYMBOL = '2';
 export const MAINNET_USDT_SYMBOL = '3';
-
 
 export const COINGECKO_DFI_ID = 'defichain';
 export const COINGECKO_BTC_ID = 'bitcoin';
@@ -114,7 +113,7 @@ export const LEARN_MORE_ABOUT_BITCOIN_LINK =
 export const DEFICHAIN_DEX_YOUTUBE_LINK =
   'https://www.youtube.com/watch?v=JLu16bdlYrM';
 export const LIQUIDITY_MINING_YOUTUBE_LINK =
-  'https://www.youtube.com/watch?v=gDR19KNyPlc';
+  'https://www.youtube.com/watch?v=G3PT0fU__mM';
 export const DEFICHAIN_IMPERMANENT_YOUTUBE_LINK =
   'https://www.youtube.com/watch?v=gDR19KNyPlc';
 
