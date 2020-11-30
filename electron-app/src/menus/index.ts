@@ -10,6 +10,7 @@ import {
 } from '../constants';
 import { logFilePath } from '../services/electronLogger';
 import Logs from '../controllers/logs';
+import DefiProcessManager from '../services/defiprocessmanager';
 
 export default class AppMenu {
   getTemplate(enableReset?: boolean) {
@@ -17,6 +18,12 @@ export default class AppMenu {
       {
         label: 'Wallet',
         submenu: [
+          {
+            label: 'Reindex',
+            click(item, bw) {
+              DefiProcessManager.restart({isReindexReq: true}, null);
+            },
+          },
           {
             label: 'Import Wallet',
             click(item, bw) {
