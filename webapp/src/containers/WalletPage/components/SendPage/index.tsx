@@ -35,11 +35,7 @@ import {
   isValidAddress,
   sendToAddress,
 } from '../../service';
-import {
-  WALLET_PAGE_PATH,
-  DEFAULT_UNIT,
-  DEFAULT_DFI_FOR_ACCOUNT_TO_ACCOUNT,
-} from '../../../../constants';
+import { WALLET_PAGE_PATH, DEFAULT_UNIT } from '../../../../constants';
 import shutterSound from './../../../../assets/audio/shutter.mp3';
 import {
   getAddressAndAmountListForAccount,
@@ -262,13 +258,6 @@ class SendPage extends Component<SendPageProps, SendPageState> {
     this.setState({
       regularDFI,
     });
-    // if (regularDFI <= DEFAULT_DFI_FOR_ACCOUNT_TO_ACCOUNT) {
-    //   try {
-    //     throw new Error(I18n.t('containers.wallet.sendPage.insufficientUtxos'));
-    //   } catch (error) {
-    //     return this.handleFailure(error);
-    //   }
-    // }
     if (isAmountValid && isAddressValid) {
       let amount;
       let txHash;

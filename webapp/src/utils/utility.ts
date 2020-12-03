@@ -1107,7 +1107,9 @@ export const handleAccountToAccountConversion = async (
       amountTransfered = amountTransfered.plus(new BigNumber(amount));
     }
   }
-  await Promise.all(accountToAccountTxHashes);
+  if (accountToAccountTxHashes.length) {
+    await Promise.all(accountToAccountTxHashes);
+  }
   return amountTransfered;
 };
 

@@ -28,6 +28,7 @@ const ValueLi: React.FunctionComponent<KeyValueLiProps> = (
 
   return (
     <div className={styles.keyValueLi}>
+      <div className={styles.label}>{props.label}</div>
       <div className={styles.value}>
         <Row>
           <Col md='10'>
@@ -39,14 +40,10 @@ const ValueLi: React.FunctionComponent<KeyValueLiProps> = (
             >
               {I18n.t('components.keyValueLi.copied')}
             </div>
-            {props.value ? (
-              <EllipsisText text={props.value} length={'50'} />
-            ) : (
-              '-'
-            )}
+            <EllipsisText text={props.value} length={'50'} />
           </Col>
           <Col md='2'>
-            {props.value && props.copyable && (
+            {props.copyable && (
               <CopyToClipboard value={props.value!} handleCopy={handleCopy} />
             )}
           </Col>

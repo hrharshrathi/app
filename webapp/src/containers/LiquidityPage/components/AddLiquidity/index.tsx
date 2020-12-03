@@ -519,71 +519,62 @@ const AddLiquidity: React.FunctionComponent<AddLiquidityProps> = (
               }
             />
           </div>
-          <Row>
-            <Col md='4' className={styles.keyValueLiKey}>
-              <span>
-                {I18n.t('containers.swap.addLiquidity.receiveSharesAt')}
-              </span>
-            </Col>
-            <Col md='8'>
-              <UncontrolledDropdown className='w-100'>
-                <DropdownToggle
-                  caret
-                  color='outline-secondary'
-                  className={`${styles.divisibilityDropdown}`}
-                >
-                  {formState.receiveAddress
-                    ? formState.receiveAddress
-                    : I18n.t('containers.swap.addLiquidity.receiveAddress')}
-                </DropdownToggle>
-                <DropdownMenu className={`${styles.scrollAuto} w-100`}>
-                  <DropdownItem className='w-100'>
+          <UncontrolledDropdown className='w-100'>
+            <DropdownToggle
+              caret
+              color='outline-secondary'
+              className={`${styles.divisibilityDropdown}`}
+            >
+              {formState.receiveAddress
+                ? formState.receiveAddress
+                : I18n.t('containers.swap.addLiquidity.receiveAddress')}
+            </DropdownToggle>
+            <DropdownMenu className={`${styles.scrollAuto} w-100`}>
+              <DropdownItem className='w-100'>
+                <Row className='w-100'>
+                  <Col md='6'>
+                    {I18n.t('containers.swap.addLiquidity.address')}
+                  </Col>
+                  <Col md='3'>
+                    {I18n.t('containers.swap.addLiquidity.label')}
+                  </Col>
+                  <Col md='3'>
+                    {I18n.t('containers.swap.addLiquidity.selected')}
+                  </Col>
+                </Row>
+              </DropdownItem>
+              {receiveAddresses.map((data) => {
+                return (
+                  <DropdownItem
+                    className='justify-content-between ml-0 w-100'
+                    key={data.address}
+                    name='receiveAddress'
+                    onClick={() =>
+                      handleDropDowns(data.address, 'receiveAddress')
+                    }
+                    value={data.address}
+                  >
                     <Row className='w-100'>
                       <Col md='6'>
-                        {I18n.t('containers.swap.addLiquidity.address')}
+                        <EllipsisText text={data.address} length={'42'} />
                       </Col>
                       <Col md='3'>
-                        {I18n.t('containers.swap.addLiquidity.label')}
+                        <EllipsisText
+                          text={data.label ? data.label : '---'}
+                          length={'20'}
+                        />
                       </Col>
                       <Col md='3'>
-                        {I18n.t('containers.swap.addLiquidity.selected')}
+                        {formState.receiveAddress === data.address && (
+                          <MdCheck />
+                        )}
                       </Col>
                     </Row>
                   </DropdownItem>
-                  {receiveAddresses.map((data) => {
-                    return (
-                      <DropdownItem
-                        className='justify-content-between ml-0 w-100'
-                        key={data.address}
-                        name='receiveAddress'
-                        onClick={() =>
-                          handleDropDowns(data.address, 'receiveAddress')
-                        }
-                        value={data.address}
-                      >
-                        <Row className='w-100'>
-                          <Col md='6'>
-                            <EllipsisText text={data.address} length={'42'} />
-                          </Col>
-                          <Col md='3'>
-                            <EllipsisText
-                              text={data.label ? data.label : '---'}
-                              length={'20'}
-                            />
-                          </Col>
-                          <Col md='3'>
-                            {formState.receiveAddress === data.address && (
-                              <MdCheck />
-                            )}
-                          </Col>
-                        </Row>
-                      </DropdownItem>
-                    );
-                  })}
-                </DropdownMenu>
-              </UncontrolledDropdown>
-            </Col>
-          </Row>
+                );
+              })}
+            </DropdownMenu>
+          </UncontrolledDropdown>
           <br />
           {isValid() && (
             <div>
