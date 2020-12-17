@@ -10,7 +10,12 @@ import {
 } from '../../constants';
 import RpcClient from '../../utils/rpc-client';
 import { handleFetchToken } from '../TokensPage/service';
-import { getAddressInfo, handleFetchAccountDFI } from '../WalletPage/service';
+import {
+  getAddressInfo,
+  getTransactionInfo,
+  handleFetchAccountDFI,
+  sendTokensToAddress,
+} from '../WalletPage/service';
 import {
   calculateAPY,
   fetchPoolPairDataWithPagination,
@@ -174,30 +179,6 @@ export const handleTestPoolSwapFrom = async (formState) => {
     list
   );
 
-  // let accountToAccountAmount = new BigNumber(0);
-
-  // // convert account to account, if don't have sufficient funds in one account
-  // if (Number(formState.amount1) > maxAmount1) {
-  //   accountToAccountAmount = await handleAccountToAccountConversion(
-  //     list,
-  //     address1,
-  //     formState.hash1
-  //   );
-  // }
-
-  // convert utxo to account DFI, if don't have sufficent funds in account
-  // if (
-  //   formState.hash1 === DFI_SYMBOL &&
-  //   new BigNumber(formState.amount1).gt(accountToAccountAmount.plus(maxAmount1))
-  // ) {
-  //   await handleUtxoToAccountConversion(
-  //     formState.hash1,
-  //     address1,
-  //     formState.amount1,
-  //     accountToAccountAmount.plus(maxAmount1).toNumber()
-  //   );
-  // }
-
   if (new BigNumber(formState.amount2).toNumber()) {
     const testPoolSwapAmount = await rpcClient.testPoolSwap(
       address2,
@@ -224,27 +205,28 @@ export const handlePoolSwap = async (formState) => {
     list
   );
 
-  let accountToAccountAmount = new BigNumber(0);
+  const accountBalance = await handleFetchAccountDFI();
 
   // convert account to account, if don't have sufficient funds in one account
   if (Number(formState.amount1) > maxAmount1) {
-    accountToAccountAmount = await handleAccountToAccountConversion(
-      list,
+    const txHash = await sendTokensToAddress(
       address1,
-      formState.hash1
+      `${new BigNumber(accountBalance).toFixed(8)}@DFI`
     );
+    await getTransactionInfo(txHash);
   }
 
   // convert utxo to account DFI, if don't have sufficent funds in account
+  const balance = await getBalanceForSymbol(address1, '0');
   if (
     formState.hash1 === DFI_SYMBOL &&
-    new BigNumber(formState.amount1).gt(accountToAccountAmount.plus(maxAmount1))
+    new BigNumber(formState.amount1).gt(balance)
   ) {
     await handleUtxoToAccountConversion(
       formState.hash1,
       address1,
       formState.amount1,
-      accountToAccountAmount.plus(maxAmount1).toNumber()
+      Number(balance)
     );
   }
 

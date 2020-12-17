@@ -8,7 +8,12 @@ import {
   MINIMUM_DFI_REQUIRED_FOR_TOKEN_CREATION,
   UNDEFINED_STRING,
 } from '../../constants';
-import { handleFetchRegularDFI, sleep } from '../WalletPage/service';
+import {
+  handleFetchAccountDFI,
+  handleFetchRegularDFI,
+  sendTokensToAddress,
+  sleep,
+} from '../WalletPage/service';
 import {
   fetchTokenDataWithPagination,
   getAddressAndAmountListForAccount,
@@ -99,11 +104,17 @@ export const handleCreateTokens = async (tokenData) => {
       Number(MINIMUM_DFI_REQUIRED_FOR_TOKEN_CREATION) >
       maxAmount + regularDFI
     ) {
-      accountToAccountAmount = await handleAccountToAccountConversion(
-        list,
+      // accountToAccountAmount = await handleAccountToAccountConversion(
+      //   list,
+      //   address,
+      //   DFI_SYMBOL
+      // );
+      const accountBalance = await handleFetchAccountDFI();
+      const txHash = await sendTokensToAddress(
         address,
-        DFI_SYMBOL
+        `${new BigNumber(accountBalance).toFixed(8)}@DFI`
       );
+      await getTransactionInfo(txHash);
     }
     // const txId = await rpcClient.sendToAddress(
     //   address,
