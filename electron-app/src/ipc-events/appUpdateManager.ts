@@ -4,7 +4,10 @@ import { POST_UPDATE_ACTION, START_DOWNLOAD_UPDATE } from '../constants';
 
 export default function initiateAppUpdateManager(autoUpdater: any) {
   ipcMain.on(POST_UPDATE_ACTION, () => {
-    autoUpdater.quitAndInstall();
+    setImmediate(() => {
+       autoUpdater.quitAndInstall();
+    })
+//     autoUpdater.quitAndInstall();
 //     app.exit();
   });
 
